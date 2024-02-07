@@ -1,7 +1,8 @@
-import { useDispatch } from "react-redux";
-import { cartActions } from "../../store/slices";
+import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { updateUserCart } from "../../store/thunks/cart";
+// import { updateUserCart } from "../../store/thunks/cart";
 
 const DUMMY_IMAGES = [
   "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
@@ -10,6 +11,8 @@ const DUMMY_IMAGES = [
 
 const CartItem = (props) => {
   const { item } = props;
+  const auth = useSelector((state) => state.auth);
+  const cart = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
 
@@ -19,17 +22,49 @@ const CartItem = (props) => {
   }
 
   const handleQuantityChange = (e) => {
-    if (parseFloat(e.target.value) > 0)
+    if (parseFloat(e.target.value) > 0) {
+      const newItems = cart.items
+        .map((cartItem) => {
+          if (item._id === cartItem._id) {
+            return { ...cartItem, quantity: parseFloat(e.target.value) };
+          }
+          return { ...cartItem };
+        })
+        .map((cartItem) => ({
+          productId: cartItem.product._id,
+          size: cartItem.size,
+          color: cartItem.color,
+          quantity: cartItem.quantity,
+        }));
+
       dispatch(
-        cartActions.changeCartItemQuantity({
-          id: item._id,
-          quantity: parseFloat(e.target.value),
+        updateUserCart({
+          token: auth.token,
+          userId: auth.user._id,
+          cart: { items: newItems },
         })
       );
+    }
   };
 
   const handleRemoveItem = () => {
-    dispatch(cartActions.removeFromCart({ id: item.product._id }));
+    const newItems = cart.items
+      .filter((cartItem) => cartItem._id !== item._id)
+      .map((cartItem) => ({
+        productId: cartItem.product._id,
+        size: cartItem.size,
+        color: cartItem.color,
+        quantity: cartItem.quantity,
+      }));
+
+    dispatch(
+      updateUserCart({
+        token: auth.token,
+        userId: auth.user._id,
+        cart: { items: newItems },
+      })
+    );
+    // dispatch(cartActions.removeFromCart({ id: item.product._id }));
   };
 
   return (

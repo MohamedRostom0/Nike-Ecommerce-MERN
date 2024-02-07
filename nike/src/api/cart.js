@@ -22,7 +22,19 @@ export async function addItemToCart({ cartItem, userId, token }) {
     }
   );
 
-  console.log(response.data);
+  return response.data;
+}
+
+export async function updateCart({ cart, userId, token }) {
+  const response = await axios.put(
+    `${API_DOMAIN}/api/users/${userId}/cart`,
+    cart,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 
   return response.data;
 }

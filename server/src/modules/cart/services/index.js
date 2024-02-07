@@ -39,21 +39,11 @@ const CartServices = {
       });
     }
 
-    let total = 0;
-    cart = cart.toObject();
-    cart.items = cart.items.map((item) => {
-      total += item.productId.price * item.quantity;
-      return { ...item, product: item.productId, productId: undefined };
-    });
-
-    return { cart, total: total + 30 };
+    return CartServicesHelpers.formatCartResponse({ cart });
   },
 
   async addItemToCart({ userId, item }) {
-    let cart = await Carts.findOne({ userId }).populate({
-      path: "items.productId",
-      as: "product",
-    });
+    let cart = await Carts.findOne({ userId });
 
     if (_.isNil(cart)) {
       throw new APIError({
@@ -99,7 +89,12 @@ const CartServices = {
 
     await cart.save();
 
-    return cart;
+    return CartServicesHelpers.formatCartResponse({
+      cart: await Carts.findOne({ userId }).populate({
+        path: "items.productId",
+        as: "product",
+      }),
+    });
   },
 };
 

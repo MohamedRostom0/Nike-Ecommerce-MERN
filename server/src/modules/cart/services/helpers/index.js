@@ -36,6 +36,17 @@ const CartServicesHelpers = {
 
     return { isValid: validityErrors.length === 0, validityErrors };
   },
+
+  formatCartResponse({ cart }) {
+    let total = 0;
+    cart = cart.toObject();
+    cart.items = cart.items.map((item) => {
+      total += item.productId.price * item.quantity;
+      return { ...item, product: item.productId, productId: undefined };
+    });
+
+    return { cart, total: total + 30 };
+  },
 };
 
 export default CartServicesHelpers;

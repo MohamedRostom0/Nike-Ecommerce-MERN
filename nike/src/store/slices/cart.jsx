@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchUserCart } from "../thunks/cart";
+import { fetchUserCart, updateUserCart } from "../thunks/cart";
 
 const initialState = {
   items: [],
@@ -76,6 +76,11 @@ export const cartSlice = createSlice({
       .addCase(fetchUserCart.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+      })
+      // Handle UpdateUserCart
+      .addCase(updateUserCart.fulfilled, (state, action) => {
+        state.items = action.payload.cart.items;
+        state.total = action.payload.total;
       });
   },
 });
