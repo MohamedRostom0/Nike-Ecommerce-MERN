@@ -1,4 +1,7 @@
 import _ from "lodash";
+import Stripe from "stripe";
+// import { loadStripe } from "@stripe/stripe-js";
+
 import Carts from "../models/index.js";
 import APIError from "../../../common/utils/api-error.js";
 import httpStatus from "http-status";
@@ -95,6 +98,25 @@ const CartServices = {
         as: "product",
       }),
     });
+  },
+
+  async getCheckoutStripeSecret({ userId }) {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+    const cart = CartServicesHelpers.formatCartResponse({
+      cart: await Carts.findOne({ userId }).populate({
+        path: "items.productId",
+        as: "product",
+      }),
+    });
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: cart.total * 100,
+      currency: "usd",
+      payment_method_types: ["card"],
+    });
+
+    return paymentIntent;
   },
 };
 

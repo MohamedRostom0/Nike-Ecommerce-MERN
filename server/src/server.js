@@ -7,7 +7,6 @@ import { errorHandler } from "./common/middlewares/error-handler.js";
 import connectToDB from "./common/config/mongodb.js";
 import { jwtHandler } from "./common/config/passport/handlers.js";
 import { setupPassport } from "./common/config/passport/index.js";
-import { authenticate } from "./common/middlewares/authenticate.js";
 
 parseEnvironmentVariables();
 connectToDB();
@@ -26,7 +25,7 @@ app.use(cors());
 // Mount Router
 app.use(router);
 
-app.use("/", authenticate, (req, res) => {
+app.use("/", (req, res) => {
   res.send("Hello");
 });
 

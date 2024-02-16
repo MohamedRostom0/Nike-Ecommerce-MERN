@@ -11,6 +11,7 @@ import ProductPage from "./pages/ProductPage.jsx";
 import { AuthPage } from "./pages/AuthPage.jsx";
 import store from "./store/index.jsx";
 import CartPage from "./pages/CartPage.jsx";
+import PaymentSuccessfulPage from "./pages/PaymentSuccessfulPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,15 @@ const router = createBrowserRouter([
     element: (
       <Layout>
         <CartPage />
+      </Layout>
+    ),
+  },
+
+  {
+    path: "/post-payment",
+    element: (
+      <Layout>
+        <PaymentSuccessfulPage />
       </Layout>
     ),
   },

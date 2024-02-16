@@ -38,3 +38,16 @@ export async function updateCart({ cart, userId, token }) {
 
   return response.data;
 }
+
+export async function getStripeSecret({ userId, token }) {
+  const response = await axios.get(
+    `${API_DOMAIN}/api/users/${userId}/cart/checkout/secret`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return response.data;
+}

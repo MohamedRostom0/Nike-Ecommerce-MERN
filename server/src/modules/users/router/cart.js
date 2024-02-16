@@ -31,4 +31,11 @@ router.put(
   UserCartController.updateUserCart
 );
 
+router.get(
+  "/:userId/cart/checkout/secret",
+  authenticate,
+  authorize("user"),
+  UserCartController.getCheckoutStripeSecret
+);
+
 export default router;

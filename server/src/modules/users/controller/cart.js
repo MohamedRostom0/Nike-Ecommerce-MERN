@@ -46,6 +46,17 @@ const UserCartController = {
       return next(err);
     }
   },
+
+  async getCheckoutStripeSecret(req, res, next) {
+    try {
+      const { userId } = req.params;
+      const response = await CartServices.getCheckoutStripeSecret({ userId });
+
+      return res.status(httpStatus.OK).json(response);
+    } catch (err) {
+      return next(err);
+    }
+  },
 };
 
 export default UserCartController;
