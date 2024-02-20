@@ -10,17 +10,29 @@ const ProductsList = () => {
   const { sendRequest, data } = useHttp(getProductsList);
 
   let products = [];
+  let pagination = {};
+  let count = 1;
+
   if (data) {
     products = data.data;
-    console.log(products);
+    pagination = data.pagination;
+    count = data.count;
   }
 
   useEffect(() => {
-    if (location.search) {
-      sendRequest(`${location.search}&limit=8&page=1`);
-    } else {
-      sendRequest("?limit=8&page=1");
+    let searchParams = new URLSearchParams(location.search);
+
+    // Check if 'limit' and 'page' parameters exist, add them if they don't
+    if (!searchParams.has("limit")) {
+      searchParams.set("limit", "8");
     }
+    if (!searchParams.has("page")) {
+      searchParams.set("page", "1");
+    }
+
+    const newSearchString = `?${searchParams.toString()}`;
+
+    sendRequest(newSearchString);
   }, [sendRequest, location]);
 
   return (
@@ -32,7 +44,7 @@ const ProductsList = () => {
       </div>
 
       <div className="mt-5 flex justify-center">
-        <Pagination />
+        <Pagination pagination={pagination} count={count} />
       </div>
     </div>
   );

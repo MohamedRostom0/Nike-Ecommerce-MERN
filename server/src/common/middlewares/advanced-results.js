@@ -80,7 +80,7 @@ const advancedResults =
 
     res.advancedResults = {
       success: true,
-      count: results.length,
+      count: total,
       pagination,
       data: results,
     };
