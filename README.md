@@ -1,6 +1,9 @@
 # Overview
 This MERN app is a concept e-commerce website for Nike. It offers users ability to create accounts, search inventory, add items to their Carts, and checkout.
 
+## Video demo
+Here: https://drive.google.com/file/d/1pC4wdBRxQiSM1Q_B8j7JNrL5Y_sV1Tzg/view?usp=sharing
+
 ## Feautures
 - User Sign up and Sign in
 - Creating new products (Only as `Admin` role)
