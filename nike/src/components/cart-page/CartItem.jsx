@@ -49,7 +49,7 @@ const CartItem = (props) => {
 
   const handleRemoveItem = () => {
     const newItems = cart.items
-      .filter((cartItem) => cartItem._id !== item._id)
+      .filter((cartItem) => cartItem.product._id !== item.product._id)
       .map((cartItem) => ({
         productId: cartItem.product._id,
         size: cartItem.size,
