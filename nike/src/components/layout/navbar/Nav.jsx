@@ -37,17 +37,19 @@ const Nav = () => {
             </li>
           ))}
 
-          <li className="border p-1.5 rounded-full border-coral-red hover:cursor-pointer">
-            <Link
-              to="/cart"
-              className="font-montserrat leading-normal text-lg text-coral-red"
-            >
-              My Cart
-            </Link>
-            <span className="ml-1">
-              <FontAwesomeIcon icon={faCartShopping} color="red" />
-            </span>
-          </li>
+          {auth.isLoggedIn && (
+            <li className="border p-1.5 rounded-full border-coral-red hover:cursor-pointer">
+              <Link
+                to="/cart"
+                className="font-montserrat leading-normal text-lg text-coral-red"
+              >
+                My Cart
+              </Link>
+              <span className="ml-1">
+                <FontAwesomeIcon icon={faCartShopping} color="red" />
+              </span>
+            </li>
+          )}
 
           {!auth.isLoggedIn && (
             <li className="border p-1.5 rounded-full border-coral-red">

@@ -61,7 +61,7 @@ const CartPage = () => {
               <hr />
               <div className="flex justify-between">
                 <p>Subtotal</p>
-                <p>${cart.total.toFixed(2)}</p>
+                <p>${cart.total.toFixed(2) - 30}</p>
               </div>
               <hr />
               <div className="flex justify-between">
